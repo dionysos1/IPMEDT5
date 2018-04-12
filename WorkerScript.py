@@ -49,10 +49,12 @@ def serial_read_product_id(read_serial, write_serial):
 
 
 def get_product_by_rfid(rfid):
-    db_cursor.execute("SELECT name, rfid, price FROM products WHERE rfid = '{}'".format(rfid))
+    db_cursor.execute("SELECT name, rfid, price FROM product_status WHERE rfid = '{}'".format(rfid))
     results = db_cursor.fetchall()
-
-    return results[0]
+    if len(results) == 0:
+        return "UNKNOWN PRODUCT", "UNKNOWN PRODUCT", "UNKNOWN PRODUCT"
+    else:
+        return results[0]
 
 
 def serial_write(usb, args):
