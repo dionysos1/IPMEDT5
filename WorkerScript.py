@@ -26,8 +26,6 @@ def serial_read_product(usb):
         split = incoming_string.split(' ')
         if len(split) < 2:
             return
-        if float(split[1]) < 0:
-            split[1] = 0
         uid_and_weight_to_db(str(split[0]), split[1])
 
 
