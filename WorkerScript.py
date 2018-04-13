@@ -22,10 +22,13 @@ def serial_read_product(usb):
     # lees data van de seriele verbinding
     if usb.in_waiting:
         incoming_string = usb.readline()
-
+        print(incoming_string)
         split = incoming_string.split(' ')
-
-        uid_and_weight_to_db(str(split[0]), float(split[1]))
+        if len(split) < 2:
+            return
+        if float(split[1]) < 0:
+            split[1] = 0
+        uid_and_weight_to_db(str(split[0]), split[1])
 
 
 def serial_read_product_id(read_serial, write_serial):
@@ -66,10 +69,10 @@ def uid_and_weight_to_db(uid, weight):
 
 
 def main():
-
     for usb in usb_ports:
         usb.flushInput()
 
+    time.sleep(2)
     while True:
         serial_read_product(usb_ports[0])
         serial_read_product_id(usb_ports[1], usb_ports[2])
